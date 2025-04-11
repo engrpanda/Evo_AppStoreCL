@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="8dp"
     tools:context=".MainActivity">
 
+    <!-- ListView for displaying items -->
     <ListView
+        android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/list_view"
+        android:padding="8dp"
         tools:listitem="@layout/list_row_item"/>
-
-
 </RelativeLayout>

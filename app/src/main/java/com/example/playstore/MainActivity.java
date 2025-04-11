@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setIcon(getDrawable(R.drawable.cdot));
+        actionBar.setIcon(getDrawable(R.drawable.logo));
         actionBar.setTitle((Html.fromHtml("<font color=\"#000080\">" + "\t\tPlayStore" + "</font>")));
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFFFFF")));
 
@@ -78,14 +78,16 @@ public class MainActivity extends AppCompatActivity {
         //List<ApplicationInfo> infoList = manager.getInstalledPackages(PackageManager.GET_META_DATA);
         List<PackageInfo> infoList = manager.getInstalledPackages(PackageManager.GET_META_DATA);
 
-        for(PackageInfo info: infoList){
-
-            //Check only for installed apps and not system apps
-            //if((info.flags & ApplicationInfo.FLAG_SYSTEM)) == 0){
-            //if ((!getSysPackages) && (info.versionName == null)) {
-            if(manager.getLaunchIntentForPackage(info.packageName) == null){
+        for (PackageInfo info: infoList) {
+            // Exclude system apps by checking if the app is installed in the system directory
+            if ((info.applicationInfo.flags & android.content.pm.ApplicationInfo.FLAG_SYSTEM) != 0) {
                 continue;
             }
+
+            if (manager.getLaunchIntentForPackage(info.packageName) == null) {
+                continue;
+            }
+
 
             MainData data = new MainData();
             data.setName(info.applicationInfo.loadLabel(getPackageManager()).toString());

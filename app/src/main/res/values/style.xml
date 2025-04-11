@@ -5,7 +5,7 @@
         parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
 
         <item name="android:icon">@drawable/cdot</item>
-        <item name="logo">@drawable/cdot</item>
+        <item name="logo">@drawable/logo</item>
         <item name="displayOptions">useLogo|showHome|showTitle</item>
     </style>
 
