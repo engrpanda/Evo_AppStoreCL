@@ -1,0 +1,10 @@
+{
+  "com.evo.design.minicamera": {
+    "version": "1.2.0",
+    "apk": "https://github.com/engrpanda/Evo_AppStore/blob/main/Mini%20Camera.apk"
+  },
+  "com.example.app2": {
+    "version": "2.5.1",
+    "apk": "https://drive.google.com/uc?export=download&id=FILE_ID_2"
+  }
+}
