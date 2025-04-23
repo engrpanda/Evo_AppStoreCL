@@ -3,10 +3,4 @@
     "versionCode": 3,
     "versionName": "1.2.0",
     "apkUrl": "https://raw.githubusercontent.com/engrpanda/Evo_AppStore/main/Mini%20Camera.apk"
-  },
-  "com.example.app2": {
-    "versionCode": 5,
-    "versionName": "2.5.1",
-    "apkUrl": "https://drive.google.com/uc?export=download&id=FILE_ID_2"
-  }
 }
