@@ -1,5 +1,6 @@
 {
   "com.evo.design.minicamera": {
+    "name": "Mini Camera",
     "versionCode": 3,
     "versionName": "1.2.0",
     "apkUrl": "https://raw.githubusercontent.com/engrpanda/Evo_AppStore/main/Mini%20Camera.apk",
