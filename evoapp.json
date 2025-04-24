@@ -1,0 +1,37 @@
+{
+  "com.evo.design.minicamera": {
+    "name": "Mini Camera",
+    "versionCode": 1,
+    "versionName": "1.0.1",
+    "apkUrl": "https://raw.githubusercontent.com/engrpanda/Evo_AppStore/main/Mini%20Camera.apk",
+    "iconUrl": "https://raw.githubusercontent.com/engrpanda/Evo_AppStore/main/minicamera%20logo.jpg"
+  },
+  "com.evodesign.tictacgeo": {
+    "name": "TicTacGeo",
+    "versionCode": 1,
+    "versionName": "1.0",
+    "apkUrl": "https://github.com/engrpanda/Evo_AppStore/raw/main/EVO%20APP/TicTacGeo.apk",
+    "iconUrl": "https://github.com/engrpanda/Evo_AppStore/raw/main/EVO%20APP/TicTacGeo%20logo.jpg"
+  },
+  "com.harika.dinorun": {
+    "name": "Geoffrey Run",
+    "versionCode": 5,
+    "versionName": "1.0.5",
+    "apkUrl": "https://github.com/engrpanda/Evo_AppStore/raw/main/EVO%20APP/Geoffrey%20Run.apk",
+    "iconUrl": "https://github.com/engrpanda/Evo_AppStore/raw/main/EVO%20APP/Geoffrey%20Run%20logo.png"
+  },
+  "com.evodesign.tech.remote": {
+    "name": "Avatar Mode-R",
+    "versionCode": 1,
+    "versionName": "1.0",
+    "apkUrl": "https://github.com/engrpanda/Evo_AppStore/raw/main/EVO%20APP/Avatar%20Mode-R.apk",
+    "iconUrl": "https://github.com/engrpanda/Evo_AppStore/raw/main/EVO%20APP/Avatar%20Mode-R%20logo.webp"
+  },
+  "com.evo.activitysettings": {
+    "name": "Evo Settings",
+    "versionCode": 1,
+    "versionName": "1.0",
+    "apkUrl": "https://github.com/engrpanda/Evo_AppStore/raw/main/EVO%20APP/Evo%20Settings.apk",
+    "iconUrl": "https://github.com/engrpanda/Evo_AppStore/raw/main/EVO%20APP/Evo%20Settings%20logo.jpg"
+  }
+}
