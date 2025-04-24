@@ -33,5 +33,12 @@
     "versionName": "1.0",
     "apkUrl": "https://github.com/engrpanda/Evo_AppStore/raw/main/EVO%20APP/Evo%20Settings.apk",
     "iconUrl": "https://github.com/engrpanda/Evo_AppStore/raw/main/EVO%20APP/Evo%20Settings%20logo.jpg"
+  },
+    "com.evo.app": {
+    "name": "Evo App",
+    "versionCode": 1,
+    "versionName": "1.0.1",
+    "apkUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/1.0.1/Evo.App.apk",
+    "iconUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/1.0.1/evoapp.logo.png"
   }
 }
