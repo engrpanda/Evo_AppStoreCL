@@ -1,446 +1,232 @@
 package com.example.playstore;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
-
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.content.IntentFilter;
+import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.text.Html;
-import android.util.Log;
+import android.provider.Settings;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+
+import com.bumptech.glide.Glide;
+
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageInfo;
 
 public class MainActivity extends AppCompatActivity {
-
-    ListView listview;
-    List<MainData> dataList = new ArrayList<>();
-    public int newVersionCode;
-    public String newVersionName = "";
-    public String ApkName;
-    public String ReleaseServer;
-    public String BuildVersionPath = "";
-    public String urlpath;
-    //public String PackageName;
-    public int errorCode=0;
-
-    // Progress Dialog
-    private ProgressDialog pDialog;
-
-    // Progress dialog type (0 - for Horizontal progress bar)
-    public static final int progress_bar_type = 0;
+    private ListView appListView;
+    private ArrayList<AppInfo> appList = new ArrayList<>();
+    private static final String JSON_URL = "https://raw.githubusercontent.com/engrpanda/Evo_AppStore/refs/heads/main/evoapp.json";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setIcon(getDrawable(R.drawable.logo));
-        actionBar.setTitle((Html.fromHtml("<font color=\"#000080\">" + "\t\tPlayStore" + "</font>")));
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFFFFF")));
+        appListView = findViewById(R.id.list_view);
+        fetchAppData();
+    }
 
-        listview = findViewById(R.id.list_view);
-        ReleaseServer = "http://192.168.4.244/";
+    private void fetchAppData() {
+        new Thread(() -> {
+            try {
+                URL url = new URL(JSON_URL);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+                StringBuilder jsonBuilder = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    jsonBuilder.append(line);
+                }
+                JSONObject jsonObject = new JSONObject(jsonBuilder.toString());
+                Iterator<String> keys = jsonObject.keys();
 
-        //Initialize Package Manager
-        PackageManager manager = getPackageManager();
-        //Initialize Installed Apps List
-        //List<ApplicationInfo> infoList = manager.getInstalledPackages(PackageManager.GET_META_DATA);
-        List<PackageInfo> infoList = manager.getInstalledPackages(PackageManager.GET_META_DATA);
+                while (keys.hasNext()) {
+                    String packageName = keys.next();
+                    JSONObject appJson = jsonObject.getJSONObject(packageName);
+                    AppInfo app = new AppInfo(
+                            this,
+                            appJson.getString("name"),
+                            packageName,
+                            appJson.getInt("versionCode"),
+                            appJson.getString("versionName"),
+                            appJson.getString("apkUrl"),
+                            appJson.getString("iconUrl")
+                    );
+                    appList.add(app);
+                }
 
-        for (PackageInfo info: infoList) {
-            // Exclude system apps by checking if the app is installed in the system directory
-            if ((info.applicationInfo.flags & android.content.pm.ApplicationInfo.FLAG_SYSTEM) != 0) {
-                continue;
-            }
-
-            if (manager.getLaunchIntentForPackage(info.packageName) == null) {
-                continue;
-            }
-
-
-            MainData data = new MainData();
-            data.setName(info.applicationInfo.loadLabel(getPackageManager()).toString());
-            data.setPackageName(info.packageName);
-            data.setLogo(info.applicationInfo.loadIcon(manager));
-            data.setCurrentVersionCode(info.versionCode);
-            data.setCurrentVersionName(info.versionName);
-
-            dataList.add(data);
-        }
-
-        //Set Adapter
-        listview.setAdapter(new BaseAdapter() {
-            @Override
-            public int getCount() {
-                return dataList.size();
-            }
-
-            @Override
-            public Object getItem(int position) {
-                return position;
-            }
-
-            @Override
-            public long getItemId(int position) {
-                return position;
-            }
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-
-                //Initialize View
-                View view = getLayoutInflater().inflate(R.layout.list_row_item,null);
-
-                //Initialize main data
-                MainData data = dataList.get(position);
-
-                //Initialize  and assign variable
-                ImageView ivAppLogo = view.findViewById(R.id.iv_app_logo);
-                TextView tvAppName = view.findViewById(R.id.tv_app_name);
-                TextView curreVersionDisplay = view.findViewById(R.id.curr_ver_display);
-                Button checkUpdate = view.findViewById(R.id.btn_check_update);
-
-                //Set Logo on ImageView
-                ivAppLogo.setImageDrawable(data.getLogo());
-                tvAppName.setText(data.getName());
-                curreVersionDisplay.setText("Current Version : " + data.getCurrentVersionCode());
-                checkUpdate.setOnClickListener(new View.OnClickListener(){
-
-                    @Override
-                    public void onClick(View v) {
-
-                        MainData data = dataList.get(position);
-
-                        Log.i("info","Hello the App selected is :: " + data.getName());
-                        Log.i("info", "\nApp current version Code is  :: " + data.getCurrentVersionCode());
-
-                        BuildVersionPath = ReleaseServer + data.getName() + "_version.txt";
-                        urlpath = ReleaseServer + data.getName() + ".apk";
-                        ApkName = data.getName() + ".apk";
-
-                        Log.i("info","\nHello BuildVersionPath is :: " + BuildVersionPath);
-                        Log.i("info","\nHello URL PATH is :: " + urlpath);
-
-                        checkForUpdate(data);
-                    }
+                runOnUiThread(() -> {
+                    AppUpdateAdapter adapter = new AppUpdateAdapter(MainActivity.this, appList);
+                    appListView.setAdapter(adapter);
                 });
-                return view;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                runOnUiThread(() -> Toast.makeText(MainActivity.this, "Error fetching JSON", Toast.LENGTH_SHORT).show());
             }
-        });
+        }).start();
     }
 
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        switch (id) {
-            case progress_bar_type:
-                pDialog = new ProgressDialog(this);
-                pDialog.setMessage("Downloading file. Please wait...");
-                pDialog.setIndeterminate(false);
-                pDialog.setMax(100);
-                pDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                pDialog.setCancelable(true);
-                pDialog.show();
-                return pDialog;
-            default:
-                return null;
-        }
-    }
+    public class AppUpdateAdapter extends BaseAdapter {
+        private final Context context;
+        private final ArrayList<AppInfo> appList;
 
-    private void checkForUpdate(MainData data){
-
-        Log.i("info", " \n Inside check for Update, the build version path is  :: " + BuildVersionPath);
-        Log.i("info", "\nInside checkFor Update App name is :: " + data.getName());
-
-        /* 1. Download Version.text File from Server */
-        new DownloadFileFromURL().execute(data);
-
-        /* 2. Provide Dialog to Ask user permission to install */
-        //compareVersionCode(data);
-    }
-
-    private void compareVersionCode(MainData data){
-
-        Log.i("info", "Inside compare Version Code" + data.getName());
-        Log.i("info", "Inside compare Version Code" + newVersionCode);
-
-        if (newVersionCode <= data.getCurrentVersionCode()) {
-            Toast.makeText(getApplicationContext(),"App is up to date !!", Toast.LENGTH_SHORT).show();
+        public AppUpdateAdapter(Context context, ArrayList<AppInfo> appList) {
+            this.context = context;
+            this.appList = appList;
         }
 
-        if (newVersionCode > data.getCurrentVersionCode()) {
-
-            Log.i("info", " \n Inside onClick Dialog Interface - 00 new :: " + newVersionCode);
-            Log.i("info", " \n Inside onClick Dialog Interface - 00 old :: " + data.getCurrentVersionCode());
-
-            DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
-
-                Log.i("info", " \n Inside onClick Dialog Interface - 1 ");
-                switch (which) {
-                    case DialogInterface.BUTTON_POSITIVE:
-
-                        Log.i("debug", " Inside onClick Dialog Interface -2 Button Positive ");
-                        new DownloadFileForSdCard().execute(data);
-
-                        Log.i("debug", " Inside onClick Dialog Interface -3");
-                        InstallApplication();
-                        break;
-
-                    case DialogInterface.BUTTON_NEGATIVE:
-                        break;
-                }
-            };
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("New Update is Available.").setPositiveButton("Install", dialogClickListener)
-                    .setNegativeButton("Cancel.", dialogClickListener).show();
-        }
-    }
-
-    public void InstallApplication() {
-
-        Log.i("info","\n Entered in Installed Application !!");
-
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-
-
-        Log.i("inof","\n 2222222222222222222 :: Entered in Installed Application");
-
-        Uri apkURI = FileProvider.getUriForFile(getApplicationContext(), getPackageName() + ".provider", new File(Environment.getExternalStorageDirectory() + "/" + ApkName.toString()));
-        Log.i("inof","\n 333333333333333333333 :: Entered in Installed Application");
-
-        intent.setDataAndType(apkURI, "application/vnd.android.package-archive");
-        Log.i("inof","\n 44444444444444444444444444 :: Entered in Installed Application" + Environment.getExternalStorageDirectory() + ApkName.toString());
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-        Log.i("inof","\n 5555555555555555555555555555555555 :: Entered in Installed Application");
-
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-        startActivity(intent);
-
-        Log.i("inof","\n 6666666666666666666666666666666 :: Entered in Installed Application");
-    }
-
-
-
-    class DownloadFileFromURL extends AsyncTask<MainData, String, MainData> {
-
-        //public void GetVersionFromServer(String BuildVersionPath) {
         @Override
-        protected MainData doInBackground(MainData ...data) {
+        public int getCount() {
+            return appList.size();
+        }
 
-            MainData datay = data[0];
-            Log.i("info", " PRint the dataaaaaaaaaa ::: " + datay.getName());
-            /*  This is the file which contains version number to be downloaded from the remote server
-                Path ="http://<RELEASE-SERVER-IP>/<apk_name_version.txt>";
-                Name of the local file created : <apk_name_version.txt>
-                <apk_name_version.txt> contains Version Code : < >; \n Version Name = <>
-             */
+        @Override
+        public Object getItem(int position) {
+            return appList.get(position);
+        }
 
-            Log.i("DEBUG", " !!!!!!!!!!!!!!!!!!!!! Entered in Get Version form Server !!!!!!!!!!!!!!!!");
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
 
-            URL u;
-            try {
-                u = new URL(BuildVersionPath);
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View row = convertView;
+            if (row == null) {
+                row = LayoutInflater.from(context).inflate(R.layout.list_row_item, parent, false);
+            }
 
-                Log.i("info", "URL is u::" + u);
+            ImageView icon = row.findViewById(R.id.iv_app_logo);
+            TextView name = row.findViewById(R.id.tv_app_name);
+            TextView version = row.findViewById(R.id.curr_ver_display);
+            Button updateButton = row.findViewById(R.id.btn_check_update);
+            ProgressBar downloadProgress = row.findViewById(R.id.download_progress);
 
-                HttpURLConnection c = (HttpURLConnection) u.openConnection();
-                c.setRequestMethod("GET");
-                c.setDoOutput(true);
-                c.setConnectTimeout(2000);
-                c.connect();
+            AppInfo app = appList.get(position);
 
-                InputStream in = c.getInputStream();
+            name.setText(app.getName());
 
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            String localVersion = getLocalVersionName(app.getPackageName());
+            if (localVersion.equals("N/A")) {
+                version.setText("Latest: v" + app.getVersionName());
+            } else {
+                version.setText("Installed: v" + localVersion + "\nLatest: v" + app.getVersionName());
+            }
 
-                byte[] buffer = new byte[1024]; //that stops the reading after 1024 chars..
-                //in.read(buffer); //  Read from Buffer.
-                //baos.write(buffer); // Write Into Buffer.
+            Glide.with(context).load(app.getIconUrl()).into(icon);
 
-                int len1 = 0;
-                while ((len1 = in.read(buffer)) != -1) {
-                    baos.write(buffer, 0, len1); // Write Into ByteArrayOutputStream Buffer.
+            updateButton.setOnClickListener(v -> {
+                if (getLocalVersionCode(app.getPackageName()) < app.getVersionCode() || getLocalVersionCode(app.getPackageName()) == -1)
+                {
+                    downloadProgress.setVisibility(View.VISIBLE);
+                    downloadAndInstallApk(context, app.getApkUrl(), app.getName(), downloadProgress);
+                } else {
+                    Toast.makeText(context, "App is already up-to-date", Toast.LENGTH_SHORT).show();
                 }
+            });
 
-                String temp = "";
-                String s = baos.toString();// baos.toString(); contain Version Code = 2; \n Version name = 2.1;
+            return row;
+        }
+    }
 
-                for (int i = 0; i < s.length(); i++) {
-                    i = s.indexOf("=") + 1;
-                    while (s.charAt(i) == ' ') // Skip Spaces
-                    {
-                        i++; // Move to Next.
+    private void downloadAndInstallApk(Context context, String apkUrl, String appName, ProgressBar downloadProgress) {
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(apkUrl));
+        request.setTitle("Downloading " + appName);
+        request.setDescription("Updating app...");
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setMimeType("application/vnd.android.package-archive");
+
+        // Save the APK to the app's external files directory
+        File destinationFile = new File(context.getExternalFilesDir(null), appName + ".apk");
+        request.setDestinationUri(Uri.fromFile(destinationFile));
+
+        DownloadManager dm = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        long downloadId = dm.enqueue(request);
+
+        BroadcastReceiver receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context ctx, Intent intent) {
+                long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+                if (id == downloadId) {
+                    DownloadManager.Query query = new DownloadManager.Query();
+                    query.setFilterById(downloadId);
+                    Cursor cursor = dm.query(query);
+                    if (cursor.moveToFirst()) {
+                        int bytesDownloaded = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+                        int bytesTotal = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+                        if (bytesTotal > 0) {
+                            int progress = (int) ((bytesDownloaded * 100L) / bytesTotal);
+                            downloadProgress.setProgress(progress);
+                        }
+
+                        if (bytesDownloaded == bytesTotal) {
+                            // Use FileProvider to get a content URI
+                            Uri apkUri = FileProvider.getUriForFile(context,
+                                    context.getPackageName() + ".provider",
+                                    destinationFile);
+                            startInstallation(ctx, apkUri);
+                            // Unregister after handling
+                            unregisterReceiver(this);
+                        }
                     }
-                    while (s.charAt(i) != ';' && (s.charAt(i) >= '0' && s.charAt(i) <= '9' || s.charAt(i) == '.')) {
-                        temp = temp.toString().concat(Character.toString(s.charAt(i)));
-                        i++;
-                    }
-                    //
-                    s = s.substring(i); // Move to Next to Process.!
-                    temp = temp + " "; // Separate w.r.t Space Version Code and Version Name.
+                    cursor.close();
                 }
-                String[] fields = temp.split(" ");// Make Array for Version Code and Version Name.
-
-                newVersionCode = Integer.parseInt(fields[0].toString());// .ToString() Return String Value.
-                newVersionName = fields[1].toString();
-
-                Log.i("info", "\nInside Download From URL :: " + newVersionName.toString());
-                Log.i("info", "\n Inside Download From URL :: " + String.valueOf(newVersionCode));
-
-                baos.close();
-            } catch (MalformedURLException e) {
-                //Toast.makeText(getApplicationContext(), "Error." + e.getMessage(), Toast.LENGTH_SHORT).show();
-                errorCode=1;
-                //Log.i("info", " 11111111111111111111111111111111111111111111111111111111111111111111111");
-                //e.printStackTrace();
-            } catch (IOException e) {
-                //Log.i("info", " 22222222222222222222222222222222222222222222222222222222222222222222222");
-                errorCode=2;
-                //e.printStackTrace();
-                //Toast.makeText(getApplicationContext(), "Error." + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
-            return datay;
-        }// doInBackground End.
+        };
 
-        protected void onPostExecute(MainData data) {
+        registerReceiver(receiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+    }
 
-            if(errorCode == 1){
-                Toast.makeText(getApplicationContext(), "Error = " + errorCode, Toast.LENGTH_SHORT).show();
-                return;
-            }
-            else if(errorCode == 2){
-                Toast.makeText(getApplicationContext(), "Error : Release Server Not Available !! ", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            /*if (newVersionCode <= data.getCurrentVersionCode()) {
-                Toast.makeText(getApplicationContext(),"App is up to date !!", Toast.LENGTH_SHORT).show();
-            }*/
-            compareVersionCode(data);
+    private void startInstallation(Context context, Uri apkUri) {
+        Intent installIntent = new Intent(Intent.ACTION_INSTALL_PACKAGE);
+        installIntent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+        installIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        context.startActivity(installIntent);
+    }
+
+    public String getLocalVersionName(String packageName) {
+        try {
+            PackageManager pm = getPackageManager();
+            PackageInfo packageInfo = pm.getPackageInfo(packageName, 0);
+            return packageInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            return "N/A";
         }
-    } // Class DownloadFromURL End
+    }
 
-
-    class DownloadFileForSdCard extends AsyncTask<MainData, String, MainData> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            // take CPU lock to prevent CPU from going off if the user
-            // presses the power button during download
-            /*PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-            mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
-                    getClass().getName());
-            mWakeLock.acquire();*/
-            showDialog(progress_bar_type);
-        }
-
-        /**
-         * Updating progress bar
-         * */
-        protected void onProgressUpdate(String... progress) {
-            // setting progress percentage
-            pDialog.setProgress(Integer.parseInt(progress[0]));
-        }
-
-        @Override
-        protected MainData doInBackground(MainData ...data) {
-
-            //public void DownloadOnSDcard()
-            try {
-                Log.i("info", "I am in Download on SDCARD and url PAth is  :: " + urlpath);
-                URL url = new URL(urlpath); // Your given URL.
-
-                HttpURLConnection c = (HttpURLConnection) url.openConnection();
-                c.setRequestMethod("GET");
-                c.setDoOutput(true);
-                c.connect(); // Connection Complete here.!
-
-                //Toast.makeText(getApplicationContext(), "HttpURLConnection complete.", Toast.LENGTH_SHORT).show();
-
-                String PATH = Environment.getExternalStorageDirectory().toString();
-
-
-                Log.i("info", " HEllo -->>>>>>>>> My directory PATH is" + PATH);
-                File file = new File(PATH); // PATH = /mnt/sdcard/download/
-                if (!file.exists()) {
-                    Log.i("info", " HEllo in if check-->>>>>>>>> My directory PATH is" + PATH);
-                    file.mkdirs();
-                }
-
-
-                Log.i("info", " HEllo past if check-->>>>>>>>>");
-
-                File outputFile = new File(file, ApkName.toString());
-                FileOutputStream fos = new FileOutputStream(outputFile);
-
-                //      Toast.makeText(getApplicationContext(), "SD Card Path: " + outputFile.toString(), Toast.LENGTH_SHORT).show();
-
-                Log.i("info", " HEllo before input streammmmmmmmmm -->>>>>>>>> My directory PATH is" + PATH);
-                InputStream is = c.getInputStream(); // Get from Server and Catch In Input Stream Object.
-
-                byte[] buffer = new byte[1024];
-                int len1 = 0;
-
-                Log.i("info", " HEllo starting while loop-->>>>>>>>> My directory PATH is" + PATH);
-
-                while ((len1 = is.read(buffer)) != -1) {
-                    fos.write(buffer, 0, len1); // Write In FileOutputStream.
-                }
-                fos.close();
-                is.close();//till here, it works fine - .apk is download to my sdcard in download file.
-
-                //download the APK to sdcard then fire the Intent.
-            } catch (IOException e) {
-                errorCode=3;
-                Log.i("debug", " EXCEPTION ::: " + e.getMessage());
-            }
-            Log.i("info", "I am out of  Download on SDCARD");
-            return null;
-        }
-
-
-        protected void onPostExecute(MainData data) {
-            // dismiss the dialog after the file was downloaded
-            Log.i("info","Entered hereeeee on post execute");
-            dismissDialog(progress_bar_type);
-            if(errorCode == 3){
-                Toast.makeText(getApplicationContext(), "Error :: Download Failed", Toast.LENGTH_SHORT).show();
-            }
+    public int getLocalVersionCode(String packageName) {
+        try {
+            PackageManager pm = getPackageManager();
+            PackageInfo packageInfo = pm.getPackageInfo(packageName, 0);
+            return packageInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            return -1;
         }
     }
 }
