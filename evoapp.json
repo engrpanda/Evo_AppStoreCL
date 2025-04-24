@@ -40,5 +40,26 @@
     "versionName": "1.0.1",
     "apkUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/1.0.1/Evo.App.apk",
     "iconUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/1.0.1/evoapp.logo.png"
+  },
+      "com.finalwire.aida64": {
+    "name": "AIDA64",
+    "versionCode": 196,
+    "versionName": "1.96",
+    "apkUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/aida.apk",
+    "iconUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/aidalogo.png"
+  },
+    "com.estmob.android.sendanywhere": {
+    "name": "Send Anywhere",
+    "versionCode": 463463,
+    "versionName": "23.1.7",
+    "apkUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/sendanywhere.apk",
+    "iconUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/sendanywherelogo.png"
+  },
+    "com.yahoo.mobile.client.android.mail": {
+    "name": "Yahoo Mail",
+    "versionCode": 1774460,
+    "versionName": "7.44.5",
+    "apkUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/Yahoo.Mail.apk",
+    "iconUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/yahoomaillogo.png"
   }
 }
