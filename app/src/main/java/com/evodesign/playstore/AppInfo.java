@@ -1,4 +1,4 @@
-package com.example.playstore;
+package com.evodesign.playstore;
 
 import android.content.Context;
 import android.content.pm.PackageManager;

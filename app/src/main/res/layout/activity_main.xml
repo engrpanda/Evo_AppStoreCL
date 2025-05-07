@@ -12,16 +12,16 @@
         android:layout_height="wrap_content"
         android:paddingBottom="5dp">
 
-        <!-- Title pinned to start -->
-        <TextView
-            android:id="@+id/header_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="App Store"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"/>
+<!--        &lt;!&ndash; Title pinned to start &ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:id="@+id/header_title"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="App Store"-->
+<!--            android:textSize="24sp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_centerVertical="true"/>-->
 
         <!-- Logo centered in parent -->
         <ImageView

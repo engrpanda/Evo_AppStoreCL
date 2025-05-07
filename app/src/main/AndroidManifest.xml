@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.playstore">
+    package="com.evodesign.playstore">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
@@ -16,7 +16,7 @@
 
     <queries>
         <!-- Explicit apps you know in advance about: -->
-        <package android:name="com.example.sk"/>
+        <package android:name="com.evodesign.sk"/>
     </queries>
 
     <application

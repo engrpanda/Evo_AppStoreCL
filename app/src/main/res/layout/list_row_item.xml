@@ -37,8 +37,8 @@
 
     <Button
         android:id="@+id/btn_check_update"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@id/tv_app_name"
         android:text="Check Update" />

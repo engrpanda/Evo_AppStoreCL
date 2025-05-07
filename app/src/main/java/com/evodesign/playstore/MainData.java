@@ -1,4 +1,4 @@
-package com.example.playstore;
+package com.evodesign.playstore;
 
 import android.graphics.drawable.Drawable;
 
