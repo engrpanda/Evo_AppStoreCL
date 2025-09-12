@@ -68,6 +68,13 @@
     "versionName": "1.7",
     "apkUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/Assistant.Lite.apk",
     "iconUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/orionstar.asst.png"
+      },
+  "com.jan.fileDL": {
+    "name": "FileDL",
+    "versionCode": 170,
+    "versionName": "1.0",
+    "apkUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/fileDL.v1.0.apk",
+    "iconUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/filedllogo.png"
   },
   "com.evodesign.playstore": {
     "name": "Evo App Store",
@@ -77,3 +84,4 @@
     "iconUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/evologo.jpg"
   }
 }
+
