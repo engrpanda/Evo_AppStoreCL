@@ -97,6 +97,13 @@
     "apkUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/Screen.Orientation.Lock.v1.3.apk",
     "iconUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/Screen.Orientation.Lock.v1.3.logo.png"
   },
+    "com.evo.danceconfig": {
+    "name": "EVO Dance Manager",
+    "versionCode": 1,
+    "versionName": "1.0",
+    "apkUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/dance_manager.v1.0.apk",
+    "iconUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/dancemanagerlogo.png"
+  },
   "com.evodesign.playstore": {
     "name": "Evo App Store",
     "versionCode": 1,
@@ -105,6 +112,7 @@
     "iconUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/evologo.jpg"
   }
 }
+
 
 
 
