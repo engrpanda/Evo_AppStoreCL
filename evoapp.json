@@ -76,6 +76,27 @@
     "apkUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/fileDL.v1.0.apk",
     "iconUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/filedllogo.png"
   },
+    "com.easytouch.assistivetouch": {
+    "name": "Assistive Touch",
+    "versionCode": 4.0.23,
+    "versionName": "4023",
+    "apkUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/Assistive.Touch.v4.0.23.apk",
+    "iconUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/Assistive.Touch.v4.0.23.logo.png"
+  },
+    "sk.styk.martin.apkanalyzer": {
+    "name": "Apk Analyzer",
+    "versionCode": 58,
+    "versionName": "3.4.0",
+    "apkUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/Apk.Analyzer.v3.4.0.apk",
+    "iconUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/apk.anayzer.logo.png"
+  },
+      "de.jerryli.screenorientationlock": {
+    "name": "Screen Orientation Lock",
+    "versionCode": 103,
+    "versionName": "1.3",
+    "apkUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/Screen.Orientation.Lock.v1.3.apk",
+    "iconUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/Screen.Orientation.Lock.v1.3.logo.png"
+  },
   "com.evodesign.playstore": {
     "name": "Evo App Store",
     "versionCode": 1,
@@ -84,4 +105,5 @@
     "iconUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/evologo.jpg"
   }
 }
+
 
