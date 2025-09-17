@@ -65,7 +65,7 @@
   "de.jerryli.robotip": {
     "name": "Assistant Lite",
     "versionCode": 170,
-    "versionName": "1.7",
+    "versionName": "1.9.3",
     "apkUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/Assistant.Lite.v1.93.apk",
     "iconUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/orionstar.asst.png"
       },
@@ -105,6 +105,7 @@
     "iconUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/evologo.jpg"
   }
 }
+
 
 
 
