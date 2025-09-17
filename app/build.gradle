@@ -11,7 +11,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.evodesign.playstore"
+        applicationId "com.evodesign.playstoreclient"
         minSdkVersion 26
         targetSdkVersion 30
         versionCode 1
