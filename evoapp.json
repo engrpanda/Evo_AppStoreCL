@@ -24,7 +24,7 @@
     "name": "Evo App Store",
     "versionCode": 1,
     "versionName": "1.1",
-    "apkUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/App.Store.v1.1.apk",
+    "apkUrl": "https://github.com/engrpanda/Evo_AppStoreCL/releases/download/apps/App.Store.v1.1.apk",
     "iconUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/evologo.jpg"
   },
   "com.android.webview": {
