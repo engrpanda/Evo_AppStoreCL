@@ -33,14 +33,3 @@
   Showcases apps developed in-house or by trusted third-party developers.
 
 ---
-
-## 🖼️ Screenshots
-
-### LuckiBot App Listing  
-<img src="https://github.com/engrpanda/Evo_AppStore/blob/main/EVO%20APP/luckilogo.png" alt="LuckiBot Screenshot" width="300"/>
-
-### MiniBot App Listing  
-<img src="https://github.com/engrpanda/Evo_AppStore/blob/main/EVO%20APP/minilogo.png" alt="MiniBot Screenshot" width="300"/>
-
----
-
