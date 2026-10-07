@@ -8,9 +8,9 @@
   },
   "com.evo.danceconfig": {
     "name": "EVO Dance Manager",
-    "versionCode": 1,
-    "versionName": "1.0",
-    "apkUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/dance_manager.v1.0.apk",
+    "versionCode": 2,
+    "versionName": "2.0",
+    "apkUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/dance_manager.v2.0.apk",
     "iconUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/dancemanagerlogo.png"
   },
   "com.evodesign.playstoreclient": {
