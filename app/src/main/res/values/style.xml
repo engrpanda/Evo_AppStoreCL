@@ -15,6 +15,22 @@
         <item name="android:paddingBottom">0dp</item>
     </style>
 
+    <style name="Widget.Evo.Button.Text" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="cornerRadius">@dimen/button_radius</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/text_button</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:textColor">@color/status_error</item>
+        <item name="rippleColor">@color/status_error</item>
+    </style>
+
     <style name="Widget.Evo.Chip" parent="Widget.MaterialComponents.Chip.Choice">
         <item name="chipBackgroundColor">@color/chip_bg</item>
         <item name="android:textColor">@color/chip_text</item>

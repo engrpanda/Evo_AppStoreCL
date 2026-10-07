@@ -11,6 +11,7 @@
     <string name="action_install">Install</string>
     <string name="action_update">Update</string>
     <string name="action_open">Open</string>
+    <string name="action_uninstall">Uninstall</string>
     <string name="action_downloading">Downloading</string>
     <string name="action_retry">Try again</string>
     <string name="status_not_installed">Not installed</string>

@@ -79,11 +79,27 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_check_update"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/button_height"
-                android:minWidth="@dimen/button_min_width" />
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_uninstall"
+                    style="@style/Widget.Evo.Button.Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginEnd="4dp"
+                    android:text="@string/action_uninstall"
+                    android:visibility="gone" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_check_update"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/button_height"
+                    android:minWidth="@dimen/button_min_width" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout

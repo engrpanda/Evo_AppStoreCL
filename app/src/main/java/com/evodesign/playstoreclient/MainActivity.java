@@ -336,6 +336,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
+            boolean canUninstall = state != AppState.NOT_INSTALLED
+                    && !downloading
+                    && !app.getPackageName().equals(getPackageName());
+            h.uninstall.setVisibility(canUninstall ? View.VISIBLE : View.GONE);
+            h.uninstall.setOnClickListener(v -> uninstallApp(app));
+
             h.button.setOnClickListener(v -> {
                 switch (stateOf(app)) {
                     case UP_TO_DATE:
@@ -356,7 +362,7 @@ public class MainActivity extends AppCompatActivity {
         class Holder extends RecyclerView.ViewHolder {
             final ImageView icon;
             final TextView name, version, status, progressText;
-            final MaterialButton button;
+            final MaterialButton button, uninstall;
             final LinearLayout progressGroup;
             final ProgressBar progressBar;
 
@@ -367,6 +373,7 @@ public class MainActivity extends AppCompatActivity {
                 version = v.findViewById(R.id.curr_ver_display);
                 status = v.findViewById(R.id.tv_status);
                 button = v.findViewById(R.id.btn_check_update);
+                uninstall = v.findViewById(R.id.btn_uninstall);
                 progressGroup = v.findViewById(R.id.progress_group);
                 progressBar = v.findViewById(R.id.download_progress);
                 progressText = v.findViewById(R.id.tv_progress);
@@ -382,6 +389,16 @@ public class MainActivity extends AppCompatActivity {
             startActivity(launch);
         } else {
             Toast.makeText(this, "This app has no launcher screen", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void uninstallApp(AppInfo app) {
+        // The system shows its own confirmation; onResume() refreshes the list afterwards.
+        Intent intent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE, Uri.parse("package:" + app.getPackageName()));
+        try {
+            startActivity(intent);
+        } catch (Exception e) {
+            Toast.makeText(this, "Cannot uninstall " + app.getName(), Toast.LENGTH_SHORT).show();
         }
     }
 
