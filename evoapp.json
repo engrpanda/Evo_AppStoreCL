@@ -26,12 +26,5 @@
     "versionName": "96.0.4664.104",
     "apkUrl": "https://github.com/engrpanda/Evo_AppStoreCL/raw/main/EVO%20APP/com.android.webview_96.0.4664.104.apk",
     "iconUrl": "https://github.com/engrpanda/Evo_AppStoreCL/raw/main/EVO%20APP/android%20webview%20logo.png"
-  },
-  "com.evo.design.minicamera": {
-    "name": "Evo Camera",
-    "versionCode": 15,
-    "versionName": "2.4.1",
-    "apkUrl": "https://github.com/engrpanda/Evo_AppStoreCL/releases/download/camera-v2.4.1/Evo.Camera.v2.4.1.apk",
-    "iconUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/evologo.jpg"
   }
 }
