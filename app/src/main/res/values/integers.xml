@@ -2,4 +2,6 @@
 <resources>
     <!-- Minimum width of one app card, in dp; the grid fits as many columns as this allows. -->
     <integer name="card_min_width_dp">260</integer>
+    <!-- 0 = horizontal (logo left, keypad right), 1 = vertical -->
+    <integer name="pin_orientation">0</integer>
 </resources>

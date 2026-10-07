@@ -14,11 +14,14 @@ import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -53,6 +56,8 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     private static final String JSON_URL = "https://raw.githubusercontent.com/engrpanda/Evo_AppStoreCL/refs/heads/main/evoapp.json";
     private static final long PROGRESS_POLL_MS = 400;
+    private static final String APP_PIN = "0000";
+    private static final String STATE_UNLOCKED = "unlocked";
 
     private static final int FILTER_ALL = 0;
     private static final int FILTER_UPDATES = 1;
@@ -77,9 +82,17 @@ public class MainActivity extends AppCompatActivity {
     private int filter = FILTER_ALL;
     private boolean loaded = false;
 
+    private boolean unlocked = false;
+    private View pinOverlay;
+    private TextView pinDots;
+    private TextView pinError;
+    private final StringBuilder pinEntry = new StringBuilder();
+    private boolean pinBusy = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        unlocked = savedInstanceState != null && savedInstanceState.getBoolean(STATE_UNLOCKED);
         setContentView(R.layout.activity_main);
 
         appListView = findViewById(R.id.list_view);
@@ -131,6 +144,103 @@ public class MainActivity extends AppCompatActivity {
         });
 
         fetchAppData();
+        if (!unlocked) showPin();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(STATE_UNLOCKED, unlocked);
+    }
+
+    // ----------------------------------------------------------------- PIN
+
+    private void showPin() {
+        pinOverlay = getLayoutInflater().inflate(R.layout.view_pin, null);
+        addContentView(pinOverlay, new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        pinDots = pinOverlay.findViewById(R.id.tv_pin_dots);
+        pinError = pinOverlay.findViewById(R.id.tv_pin_error);
+        GridLayout pad = pinOverlay.findViewById(R.id.pin_pad);
+
+        int key = getResources().getDimensionPixelSize(R.dimen.pin_key);
+        int gap = getResources().getDimensionPixelSize(R.dimen.pin_key_margin);
+        int dp1 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics());
+        String[] labels = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "", "0", "\u232B"};
+        for (String label : labels) {
+            View v;
+            if (label.isEmpty()) {
+                v = new View(this);
+            } else {
+                MaterialButton b = new MaterialButton(this);
+                b.setText(label);
+                b.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.text_pin_key));
+                b.setTextColor(ContextCompat.getColor(this, R.color.text_primary));
+                b.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.app_surface)));
+                b.setStrokeColor(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.app_outline)));
+                b.setStrokeWidth(dp1);
+                b.setPadding(0, 0, 0, 0);
+                b.setAllCaps(false);
+                if (Character.isDigit(label.charAt(0))) {
+                    b.setOnClickListener(x -> onPinDigit(label));
+                } else {
+                    b.setContentDescription(getString(R.string.pin_backspace));
+                    b.setOnClickListener(x -> onPinBackspace());
+                }
+                v = b;
+            }
+            GridLayout.LayoutParams lp = new GridLayout.LayoutParams();
+            lp.width = key;
+            lp.height = key;
+            lp.setMargins(gap, gap, gap, gap);
+            pad.addView(v, lp);
+        }
+        updatePinDots();
+    }
+
+    private void onPinDigit(String digit) {
+        if (pinBusy || pinEntry.length() >= APP_PIN.length()) return;
+        pinEntry.append(digit);
+        pinError.setVisibility(View.INVISIBLE);
+        updatePinDots();
+        if (pinEntry.length() == APP_PIN.length()) checkPin();
+    }
+
+    private void onPinBackspace() {
+        if (pinBusy || pinEntry.length() == 0) return;
+        pinEntry.setLength(pinEntry.length() - 1);
+        pinError.setVisibility(View.INVISIBLE);
+        updatePinDots();
+    }
+
+    private void checkPin() {
+        if (pinEntry.toString().equals(APP_PIN)) {
+            unlocked = true;
+            ((ViewGroup) pinOverlay.getParent()).removeView(pinOverlay);
+            pinOverlay = null;
+            return;
+        }
+        pinBusy = true;
+        pinError.setVisibility(View.VISIBLE);
+        TranslateAnimation shake = new TranslateAnimation(-14, 14, 0, 0);
+        shake.setDuration(60);
+        shake.setRepeatCount(5);
+        shake.setRepeatMode(TranslateAnimation.REVERSE);
+        pinOverlay.findViewById(R.id.pin_content).startAnimation(shake);
+        handler.postDelayed(() -> {
+            pinEntry.setLength(0);
+            updatePinDots();
+            pinBusy = false;
+        }, 450);
+    }
+
+    private void updatePinDots() {
+        StringBuilder dots = new StringBuilder();
+        for (int i = 0; i < APP_PIN.length(); i++) {
+            if (i > 0) dots.append("  ");
+            dots.append(i < pinEntry.length() ? "\u25CF" : "\u25CB");
+        }
+        pinDots.setText(dots);
     }
 
     @Override

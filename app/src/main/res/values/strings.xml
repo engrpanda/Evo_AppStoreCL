@@ -22,4 +22,7 @@
     <string name="empty_title">No apps found</string>
     <string name="empty_body">Try a different search or filter.</string>
     <string name="app_icon">App icon</string>
+    <string name="pin_prompt">Enter PIN</string>
+    <string name="pin_wrong">Incorrect PIN</string>
+    <string name="pin_backspace">Delete</string>
 </resources>

@@ -45,4 +45,11 @@
     <dimen name="text_state_title">16sp</dimen>
     <dimen name="text_state_body">13sp</dimen>
     <dimen name="state_icon">48dp</dimen>
+
+    <dimen name="pin_logo">48dp</dimen>
+    <dimen name="pin_key">40dp</dimen>
+    <dimen name="pin_key_margin">3dp</dimen>
+    <dimen name="pin_gap">36dp</dimen>
+    <dimen name="text_pin_dots">22sp</dimen>
+    <dimen name="text_pin_key">18sp</dimen>
 </resources>
