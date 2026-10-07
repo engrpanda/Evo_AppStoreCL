@@ -20,11 +20,11 @@
     "apkUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/dance_manager.v1.0.apk",
     "iconUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/dancemanagerlogo.png"
   },
-  "com.evodesign.playstore": {
-    "name": "Evo App Store",
-    "versionCode": 1,
-    "versionName": "1.1",
-    "apkUrl": "https://github.com/engrpanda/Evo_AppStoreCL/releases/download/apps/App.Store.v1.1.apk",
+  "com.evodesign.playstoreclient": {
+    "name": "Evo App Store Client",
+    "versionCode": 2,
+    "versionName": "1.2",
+    "apkUrl": "https://github.com/engrpanda/Evo_AppStoreCL/releases/download/v1.2/App.Store.Client.v1.2.apk",
     "iconUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/evologo.jpg"
   },
   "com.android.webview": {
