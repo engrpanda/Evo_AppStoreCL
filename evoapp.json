@@ -22,9 +22,9 @@
   },
   "com.evodesign.playstoreclient": {
     "name": "Evo App Store Client",
-    "versionCode": 2,
-    "versionName": "1.2",
-    "apkUrl": "https://github.com/engrpanda/Evo_AppStoreCL/releases/download/v1.2/App.Store.Client.v1.2.apk",
+    "versionCode": 3,
+    "versionName": "1.3",
+    "apkUrl": "https://github.com/engrpanda/Evo_AppStoreCL/releases/download/v1.3/App.Store.Client.v1.3.apk",
     "iconUrl": "https://github.com/engrpanda/Evo_AppStore/releases/download/apps/evologo.jpg"
   },
   "com.android.webview": {

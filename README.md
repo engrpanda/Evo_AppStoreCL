@@ -12,7 +12,7 @@
 
 ## 📦 Download
 
-👉 [**Download Evo AppStore Client v1.2 (.apk)**](https://github.com/engrpanda/Evo_AppStoreCL/releases/download/v1.2/App.Store.Client.v1.2.apk)
+👉 [**Download Evo AppStore Client v1.3 (.apk)**](https://github.com/engrpanda/Evo_AppStoreCL/releases/download/v1.3/App.Store.Client.v1.3.apk)
 
 > This is a pre-release build. Please install manually on a compatible EVODESIGN robot device.
 
