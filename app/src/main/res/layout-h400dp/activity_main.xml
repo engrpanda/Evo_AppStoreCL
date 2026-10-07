@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Compact layout for short screens (robot display, phones in landscape):
-     search sits in the header row to leave room for the app list.
-     Screens 400dp tall or more use layout-h400dp/activity_main.xml. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_layout"
@@ -10,7 +7,7 @@
     android:background="@color/app_background"
     android:orientation="vertical">
 
-    <!-- Header: logo, title, search, refresh -->
+    <!-- Header -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,9 +35,10 @@
         </com.google.android.material.card.MaterialCardView>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <LinearLayout
@@ -80,41 +78,6 @@
                 android:textSize="@dimen/text_subtitle" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="@dimen/search_height"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="4dp"
-            android:layout_weight="1"
-            android:background="@drawable/bg_search"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp">
-
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:importantForAccessibility="no"
-                android:src="@drawable/ic_search" />
-
-            <EditText
-                android:id="@+id/et_search"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:background="@null"
-                android:hint="@string/search_hint"
-                android:imeOptions="actionSearch"
-                android:importantForAutofill="no"
-                android:inputType="text"
-                android:maxLines="1"
-                android:textColor="@color/text_primary"
-                android:textColorHint="@color/text_secondary"
-                android:textSize="@dimen/text_search" />
-        </LinearLayout>
-
         <ImageButton
             android:id="@+id/btn_refresh"
             android:layout_width="@dimen/header_button"
@@ -123,6 +86,42 @@
             android:contentDescription="@string/refresh"
             android:scaleType="centerInside"
             android:src="@drawable/ic_refresh" />
+    </LinearLayout>
+
+    <!-- Search -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/search_height"
+        android:layout_marginStart="@dimen/gutter"
+        android:layout_marginTop="@dimen/search_margin_top"
+        android:layout_marginEnd="@dimen/gutter"
+        android:background="@drawable/bg_search"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_search" />
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="@string/search_hint"
+            android:imeOptions="actionSearch"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary"
+            android:textSize="@dimen/text_search" />
     </LinearLayout>
 
     <!-- Filters -->

@@ -1,3 +1,24 @@
 <resources>
-    <string name="app_name">Evo App Store</string>
+    <string name="app_name">Evo App Store Client</string>
+    <string name="header_title">Evo App Store</string>
+    <string name="edition_label">Client</string>
+    <string name="header_subtitle">Apps for your Evo robot</string>
+    <string name="search_hint">Search apps</string>
+    <string name="filter_all">All</string>
+    <string name="filter_updates">Updates</string>
+    <string name="filter_installed">Installed</string>
+    <string name="refresh">Refresh</string>
+    <string name="action_install">Install</string>
+    <string name="action_update">Update</string>
+    <string name="action_open">Open</string>
+    <string name="action_downloading">Downloading</string>
+    <string name="action_retry">Try again</string>
+    <string name="status_not_installed">Not installed</string>
+    <string name="status_update_available">Update available</string>
+    <string name="status_up_to_date">Up to date</string>
+    <string name="error_title">Cannot reach the store</string>
+    <string name="error_body">Check the robot Wi-Fi connection and try again.</string>
+    <string name="empty_title">No apps found</string>
+    <string name="empty_body">Try a different search or filter.</string>
+    <string name="app_icon">App icon</string>
 </resources>

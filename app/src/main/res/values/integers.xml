@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Minimum width of one app card, in dp; the grid fits as many columns as this allows. -->
+    <integer name="card_min_width_dp">260</integer>
+</resources>
